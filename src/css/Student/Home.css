@@ -1,0 +1,9 @@
+.home {
+  border: 1px solid black;
+  width: 45%;
+  margin: 30px;
+  text-align: center;
+  padding-top: 100px;
+  padding-bottom: 100px;
+  float: left;
+}
