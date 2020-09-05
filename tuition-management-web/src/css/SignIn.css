@@ -1,0 +1,69 @@
+.bg-sign-in {
+    margin: 0;
+    /* background-color: rgb(36, 60, 95); */
+    background-image: linear-gradient(-90deg, rgb(36, 60, 95), rgb(110, 135, 173));
+    padding-top: 200px;
+    padding-bottom: 200px;
+    flex: auto;
+}
+
+.sign-in {
+    border: 2px solid rgb(36, 60, 95);
+    box-shadow: 3px 5px rgba(36, 60, 95, 0.705);
+    max-width: 400px;
+    background-color: white;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 25px;
+}
+
+.heading-sign-in {
+    color: rgb(36, 60, 95);
+}
+
+.heading-sign-in::after {
+    display: block;
+    height: 3px;
+    background-color: rgb(36, 60, 95);
+    content: " ";
+    width: 30%;
+    margin: 0 auto;
+    margin-top: 40px;
+}
+
+.input-field-sign-in {
+    width: 90%;
+    margin: 10px 5%;
+    padding: 7px;
+    border-radius: 7px;
+    border-style: none;
+    border: 1px solid grey;
+}
+
+.sign-in-button {
+    margin: 10px auto;
+    width: 200px;
+    padding: 5px;
+    border-radius: 15px;
+    color: rgb(36, 60, 95);
+    border: 2px solid rgb(36, 60, 95);
+    margin-bottom: 30px;
+}
+
+.sign-in-button:hover {
+    color: white;
+    background-color: rgb(36, 60, 95);
+}
+
+@media only screen and (max-width: 400px) {
+    .sign-in {
+        max-width: 100%;
+        box-shadow: none;
+        margin: 0px;
+    }
+
+    .bg-sign-in {
+        padding: 0px;
+        background-image: none;
+    }
+}
