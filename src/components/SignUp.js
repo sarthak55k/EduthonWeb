@@ -13,6 +13,10 @@ class SignUp extends Component {
     };
   }
 
+  componentDidMount = () => {
+    Fire.SignoutUser();
+  };
+
   handleValidation() {
     let fields = this.state.fields;
     let errors = {};

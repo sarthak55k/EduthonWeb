@@ -14,6 +14,8 @@ export class TakeTest extends Component {
             index:0,
             answers: {},
             fields: {},
+            submitted: false,
+
         }
     }
 
@@ -93,16 +95,25 @@ export class TakeTest extends Component {
           }
         }
         fields['marks'] = result;
-        await Fire.storeMcqMarks(fields);
+        await Fire.storeMcqMarks(fields).then(()=>{
+          alert('Submitted')
+          this.setState({
+            submitted:true
+          })
+        });
    
       };
     
       
     render() {
+
         console.log(this.state.test)
         if (this.props.location.test === undefined) {
             return <Redirect to="/student/home" />;
           }
+        else if(this.state.submitted){
+          return <Redirect to="/student/home" />;
+        }
       
         return (
             <div className="take-test">

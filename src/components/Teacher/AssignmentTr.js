@@ -18,6 +18,7 @@ export class AssignmentTr extends Component {
             // data: {},
             assigns : [],
             user: null,
+            submitted: false,
 
              
         }
@@ -88,7 +89,11 @@ export class AssignmentTr extends Component {
           console.log('submitted')
 
           console.log(fields)
-          Fire.storeAssign(fields,file)
+          Fire.storeAssign(fields,file).then(()=>{
+            alert('Created')
+            this.setState({submitted:true})
+            
+          })
       }
       
       handleChange = (e) => {
@@ -105,6 +110,9 @@ export class AssignmentTr extends Component {
         // console.log(this.props.match.params)
         if(this.state.data === undefined && this.state.assigns){
             return <Spinner />;
+          }
+          else if(this.state.submitted){
+            return <Redirect to="/teacher/home" />;
           }
         else{
 

@@ -17,6 +17,7 @@ export class UploadAssign extends Component {
             // data: {},
             assigns : [],
             user: null,
+            submitted: false,
 
              
         }
@@ -90,6 +91,9 @@ export class UploadAssign extends Component {
           console.log(fields)
         Fire.studentsAssign(fields,file).then(() => {
               alert('Submitted')
+              this.setState({
+                submitted:true,
+              })
           })
       }
 
@@ -97,6 +101,9 @@ export class UploadAssign extends Component {
     let {fields} = this.state
     if(this.state.data === undefined){
         return <Spinner />;
+    }
+    else if(this.state.submitted){
+      return <Redirect to="/student/home" />;
     }
     else{
         return (
