@@ -1,10 +1,10 @@
-.subject-assign {
+.exam-student {
     background-image: linear-gradient(-90deg, rgb(36, 60, 95), rgb(149, 163, 184));
-    padding-top: 100px;
+    padding-top: 70px;
     height: 100vh;
 }
 
-.subject-assignment {
+.exams-student {
     border: 2px solid rgb(36, 60, 95);
     box-shadow: 5px 7px rgba(36, 60, 95, 0.705);
     max-width: 500px;
@@ -14,11 +14,11 @@
     border-radius: 25px;
 }
 
-.subject-assign-heading {
+.exam-heading {
     color: rgb(36, 60, 95);
 }
 
-.subject-assign-heading::after {
+.exam-heading::after {
     display: block;
     height: 3px;
     background-color: rgb(36, 60, 95);
@@ -28,16 +28,21 @@
     margin-top: 25px;
 }
 
-.subjects-assign {
+.exam-font {
+    font-size: larger;
+    margin: 5%;
+    font-weight: 500;
+}
+
+.exam-student-link {
     border: 2px solid rgb(36, 60, 95);
     margin: 5%;
     padding: 2% 3%;
     border-radius: 25px;
 }
 
-.font-subject {
+.link-exam {
     color: rgb(36, 60, 95);
-    margin-bottom: 0;
+    margin-bottom: 15px;
     vertical-align: middle;
-    font-size: 30px;
 }

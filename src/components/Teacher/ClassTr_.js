@@ -5,7 +5,7 @@ import Spinner from "../spinner";
 import "../../css/Teacher/ClassTr.css";
 
 
-export class ClassTr extends Component {
+export class ClassTr_ extends Component {
 
     constructor(props) {
         super(props)
@@ -61,16 +61,16 @@ componentWillUnmount(){
 
         
         return (
-            <div className="teacher-class">
-              <div className="teacher-classes">
-                <div className="text-center p-3 teacher-class-heading">
-                  <h1>Classes</h1>
-                </div>
+          <div className="teacher-class">
+          <div className="teacher-classes">
+            <div className="text-center p-3 teacher-class-heading">
+              <h1>Classes</h1>
+            </div>
               {fields.class.map(value => {
                 return(
                 <div className="teachers-class">
                 <Link to={{
-                    pathname: `/teacher/${value}/subjects`,
+                    pathname: `/teacher/${value}/subjects2`,
                     data: fields.fields
                 }}>
                     <p className="font-teacher-class">Standard {value}</p>
@@ -85,6 +85,6 @@ componentWillUnmount(){
     }
 }
 
-export default ClassTr
+export default ClassTr_
 
 

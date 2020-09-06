@@ -58,28 +58,28 @@ getData = () => {
     
     return (
       
-      <div>
-        <div className="home">
+      <div className="home-page-student">
+        {/*<div className="home">
           <Link to="/student/progress">
             <h1>Progress</h1>
           </Link>
-        </div>
-        <div className="home">
+    </div>*/}
+        <div className="student-home-box-1">
           <Link to= {{
               pathname : "/student/subjects",
               data: this.state.fields
               }}>
-            <h1>Assignments</h1>
+            <h1 className="links-home">Assignments</h1>
           </Link>
         </div>
-        <div className="home">
-          <Link to="/student/exam">
-            <h1>Examinations</h1>
+        <div className="student-home-box-2">
+          <Link to="/student/subjects2">
+            <h1 className="links-home">Examinations</h1>
           </Link>
         </div>
-        <div className="home">
+        <div className="student-home-box-3">
           <Link to="/calendar">
-            <h1>Calendar</h1>
+            <h1 className="links-home">Calendar</h1>
           </Link>
         </div>
       </div>

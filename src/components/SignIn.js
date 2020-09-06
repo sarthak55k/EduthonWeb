@@ -17,7 +17,7 @@ class SignIn extends Component {
   
   componentDidMount = () => {
     this.authListener();
-    // Fire.SignoutUser();
+    Fire.SignoutUser();
   };
   
   authListener = () => {

@@ -3,6 +3,7 @@ import Fire from "../../config/Fire";
 import { Redirect, Link } from "react-router-dom";
 import "../../css/Student/Home.css";
 import Spinner from "../spinner";
+import "../../css/Student/Assignment.css";
 
 export class Assignment extends Component {
 
@@ -51,10 +52,24 @@ export class Assignment extends Component {
           fields['subject'] = this.props.match.params.subject;
           fields['org'] = this.state.data['org']
           fields['class'] = this.state.data['class']
+ 
           this.setState({fields})
         })
-        Fire.getAssign(this.state.fields).then( result => {
-            this.setState({assigns : result})
+        await Fire.getAssign(this.state.fields).then( result => {
+            // this.setState({assigns:result})
+            let {assigns} = this.state;
+            result.map(val => {
+              let temp = {};
+              var date = val.due.toDate()
+              temp = {
+                'description' : val.description,
+                'url' : val.url,
+                'due' : `${date.getDate()}/${date.getMonth()}`
+              }
+              assigns.push(temp)
+            })
+
+            this.setState({assigns})
         })
     };
 
@@ -67,25 +82,30 @@ export class Assignment extends Component {
     render() {
         let {assigns,fields} = this.state
         return (
-            <div>
-                <h1>Assignments</h1>
-            <div>
-                <p>Teachers assignment</p>
+            <div className="assign-student">
+              <div className="ass-student">
+                <div className="text-center p-3 assign-heading">
+                <h1>Assignments</h1> 
+                </div>
+                
+                <div>
+                    <p className="assign-font"><u>Teachers assignment:</u></p>
 
-                {assigns.map(value => {
-                return(
-                <div className="class">
-                <Link to={{
-                    pathname: `/student/${fields['subject']}/${value.description}/upload`,
-                    
-                }}>
-                    <h1>Assignment Name : {value.description}</h1>
-                    <h3>Due Date:  {value.due}</h3>
-                </Link>
+                    {assigns.map(value => {
+                    return(
+                    <div className="assign-student-link">
+                    <Link to={{
+                        pathname: `/student/${fields['subject']}/${value.description}/upload`,
+                        
+                    }}>
+                        <h4 className="link-assign">Assignment Name : {value.description}</h4>
+                        <h5 className="link-assign">Due Date:{value.due} </h5>
+                    </Link>
+                  </div>
+                    )
+                  })}
+                </div>
               </div>
-                )
-              })}
-            </div>
             </div>
         )
     }

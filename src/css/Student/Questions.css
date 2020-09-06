@@ -1,0 +1,62 @@
+.total-quests {
+    float: left;
+    margin: 3% 4% 0 4%;
+    font-weight: 500;
+}
+
+.ans-quests {
+    float: left;
+    margin: 0% 4% 3% 4%;
+    font-weight: 500;
+}
+
+.question {
+    float: left;
+    margin: 0% 3% 3% 3%;
+    border: 2px solid rgb(36, 60, 95);
+    width: 90%;
+    border-radius: 15px;
+    padding: 10px;
+}
+
+.quest-font {
+    vertical-align: middle;
+    margin: 1%;
+    font-weight: 400;
+}
+
+.quest-options {
+    float: left;
+    margin: 2% 5% 3% 5%;
+    list-style-type: none;
+    padding: 0;
+}
+
+.opt-quest {
+    padding-left: 10px;
+    font-size: 20px;
+}
+
+.back-btn {
+    margin-top: 27%;
+    margin-left: -10%;
+    margin-bottom: 3%;
+}
+
+.submit-btn {
+    float: left;
+    margin: 0 4% 4% 4%;
+}
+
+.button-quest {
+    width: 100px;
+    padding: 5px;
+    border-radius: 15px;
+    color: rgb(36, 60, 95);
+    border: 2px solid rgb(36, 60, 95);
+}
+
+.button-quest:hover {
+    color: white;
+    background-color: rgb(36, 60, 95);
+}

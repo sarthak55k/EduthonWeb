@@ -1,6 +1,10 @@
 import React, { Component,useState,useRef } from "react";
 import { Multiselect } from "multiselect-react-dropdown";
 import "../../css/Teacher/TeacherProfile.css";
+import Fire from "../../config/Fire";
+import { Redirect } from "react-router-dom";
+import "../../css/Student/Profile.css";
+import Spinner from "../spinner";
 
 class TeacherProfile extends Component {
   constructor(props) {
@@ -15,62 +19,96 @@ class TeacherProfile extends Component {
       suboptions: [{subject: 'History'},{subject: 'Geography'},{subject: 'Maths'},{subject: 'Science'},{subject: 'English'},{subject: 'Hindi'}],      
       classOption: "",
       subjectsOpt: [],
-      classSub: []
+      classSub: [],
+      user: null,
+      final: [],
+      clas: [],
     };
   }
+
+  componentDidMount = () => {
+    this.authListener();
+  };
+
+
+   authListener = () => {
+    Fire.fire.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ user: user });
+      }
+      this.getData()
+      //NO LOGOUT PROVISION HENCE NOT SETTING user TO null
+    });
+   
+  };
+
+  getData = () => { 
+    Fire.getUserData(this.state.user.uid).then( result => {
+      this.setState({ data: result[0] });
+      console.log(this.state.data)
+    })      
+};
   
   handleValidation() {
     let fields = this.state.fields;
     let errors = {};
     let formIsValid = true;
 
-    if (typeof fields["name"] !== "undefined") {
-      if (!fields["name"].match(/^[a-zA-Z]*$/)) {
-        formIsValid = false;
-        errors["name"] = "Only letters allowed";
-      }
-    }
+    // if (typeof fields["name"] !== "undefined") {
+    //   if (!fields["name"].match(/^[a-zA-Z]*$/)) {
+    //     formIsValid = false;
+    //     errors["name"] = "Only letters allowed";
+    //   }
+    // }
 
-    if (typeof fields["mobileno"] !== "undefined") {
-      if (!fields["mobileno"].match(/^[0-9]{10}$/)) {
-        formIsValid = false;
-        errors["mobileno"] = "Please enter a valid Contact Number ";
-      }
-    }
+    // if (typeof fields["mobileno"] !== "undefined") {
+    //   if (!fields["mobileno"].match(/^[0-9]{10}$/)) {
+    //     formIsValid = false;
+    //     errors["mobileno"] = "Please enter a valid Contact Number ";
+    //   }
+    // }
 
-    if (!fields["email"]) {
-      formIsValid = false;
-      errors["email"] = "This field cannot be empty";
-    }
+    // if (!fields["email"]) {
+    //   formIsValid = false;
+    //   errors["email"] = "This field cannot be empty";
+    // }
 
-    if (typeof fields["email"] !== "undefined") {
-      let lastAtPos = fields["email"].lastIndexOf("@");
-      let lastDotPos = fields["email"].lastIndexOf(".");
+    // if (typeof fields["email"] !== "undefined") {
+    //   let lastAtPos = fields["email"].lastIndexOf("@");
+    //   let lastDotPos = fields["email"].lastIndexOf(".");
 
-      if (
-        !(
-          lastAtPos < lastDotPos &&
-          lastAtPos > 0 &&
-          fields["email"].indexOf("@@") === -1 &&
-          lastDotPos > 2 &&
-          fields["email"].length - lastDotPos > 2
-        )
-      ) {
-        formIsValid = false;
-        errors["email"] = "Email is not valid";
-      }
-    }
+    //   if (
+    //     !(
+    //       lastAtPos < lastDotPos &&
+    //       lastAtPos > 0 &&
+    //       fields["email"].indexOf("@@") === -1 &&
+    //       lastDotPos > 2 &&
+    //       fields["email"].length - lastDotPos > 2
+    //     )
+    //   ) {
+    //     formIsValid = false;
+    //     errors["email"] = "Email is not valid";
+    //   }
+    // }
 
     this.setState({ errors: errors });
     return true;
   }
 
   contactSubmit = (e) => {
-    const { fields } = this.state;
+    const { fields,data,final } = this.state;
     e.preventDefault();
 
+    let temp1 = Object.assign(fields,data)
+  
+    // let d = {
+    //   ...fields,
+    //   'class': this.state.clas
+    // }
+    data['isProfile'] = true;
+    console.log(data)
     if (this.handleValidation()) {
-    
+      Fire.updateLogin(data)
     } else {
       alert("Form has errors.");
     }
@@ -98,10 +136,39 @@ class TeacherProfile extends Component {
   }
 
   handleSubmit = (e) => {
+    let {final,data,clas} = this.state
     e.preventDefault();
-    this.setState({
-      classSub: [...this.state.classSub, { classNo:this.state.classOption, subjects: this.state.subjectsOpt }]
-    });
+    console.log(this.state.classSub)
+    console.log(this.state.classOption)
+    console.log(this.state.subjectsOpt)
+
+    let temp = [];
+    let s = []
+    this.state.subjectsOpt.map(sub => {
+      s.push(sub.subject)
+    })
+
+    data = {
+      ...this.state.data,
+      [this.state.classOption]:s,
+    }
+    this.setState({data})
+    
+    clas.push(this.state.classOption)
+    this.setState({clas})
+
+    final.push(temp)
+    this.setState({final})
+
+    console.log(final)
+    console.log(this.state.fields)
+
+
+    
+
+    // this.setState({
+    //   classSub: [...this.state.classSub, { classNo:this.state.classOption, subjects: this.state.classOption }]
+    // });
     this.setState({
       classOption:"",
       subjectOpts:[]
@@ -122,6 +189,12 @@ class TeacherProfile extends Component {
   }
 
   render() {
+    if(this.state.data === undefined){
+      return <Spinner/>
+    }
+    if(this.state.data.isProfile){
+      return <Redirect to ={'/teacher/home'}/>
+    }
     return (
       <div>
         <div className="bg-teacher-profile">
@@ -136,16 +209,16 @@ class TeacherProfile extends Component {
               <div>
                 <input
                   type="text"
-                  name="name"
-                  ref="name"
-                  onChange={this.handleChange.bind(this, "name")}
-                  value={this.state.fields["name"]}
-                  placeholder="Name"
+                  name="firstname"
+                  ref="firstname"
+                  onChange={this.handleChange.bind(this, "firstname")}
+                  value={this.state.fields["firstname"]}
+                  placeholder="First Name"
                   className="input-field-teacher-profile"
                   required
                 />
                 <span style={{ color: "red" }}>
-                  {this.state.errors["name"]}
+                  {this.state.errors["firstname"]}
                 </span>
               </div>
 
@@ -198,10 +271,16 @@ class TeacherProfile extends Component {
                 <div>
                   <select name="classes" id="classes" onChange={this.handleClassChange} className="input-field-teacher-profile" required>
                     <option value="Select">Select Class</option>
+                    <option value="1">Class 1</option>
+                    <option value="2">Class 2</option>
+                    <option value="3">Class 3</option>
+                    <option value="4">Class 4</option>
+                    <option value="5">Class 5</option>
+                    <option value="6">Class 6</option>
+                    <option value="7">Class 7</option>
+                    <option value="8">Class 8</option>
                     <option value="9">Class 9</option>
                     <option value="10">Class 10</option>
-                    <option value="11">Class 11</option>
-                    <option value="12">Class 12</option>
                   </select>
                 </div>
 

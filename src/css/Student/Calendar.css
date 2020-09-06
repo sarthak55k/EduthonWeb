@@ -1,0 +1,13 @@
+.calendar-ui {
+    color: rgb(36, 60, 95);
+}
+
+.calendar-ui::after {
+    display: block;
+    height: 3px;
+    background-color: rgb(36, 60, 95);
+    content: " ";
+    width: 6%;
+    margin: 0 auto;
+    margin-top: 25px;
+}

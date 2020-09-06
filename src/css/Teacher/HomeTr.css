@@ -1,0 +1,82 @@
+.home-page {
+    background-image: linear-gradient(-90deg, rgb(36, 60, 95), rgb(149, 163, 184));
+    height: 100vh;
+}
+
+.tr-home-box-1 {
+    float: left;
+    margin: 5%;
+    border: 5px solid rgb(36, 60, 95);
+    padding: 100px;
+    border-radius: 40px;
+    color: rgb(36, 60, 95);
+    box-shadow: 5px 7px rgba(36, 60, 95, 0.705);
+    background-color: white;
+}
+
+.tr-home-box-2 {
+    float: right;
+    margin: 5%;
+    border: 5px solid rgb(36, 60, 95);
+    padding: 100px;
+    border-radius: 40px;
+    color: rgb(36, 60, 95);
+    box-shadow: 5px 7px rgba(36, 60, 95, 0.705);
+    background-color: white;
+}
+
+.tr-home-box-3 {
+    float: left;
+    margin: -2% 36%;
+    border: 5px solid rgb(36, 60, 95);
+    padding: 90px 130px;
+    border-radius: 40px;
+    color: rgb(36, 60, 95);
+    box-shadow: 5px 7px rgba(36, 60, 95, 0.705);
+    background-color: white;
+}
+
+.links-home {
+    color: rgb(36, 60, 95);
+  }
+
+@media only screen and (max-width: 1115px) {
+    .tr-home-box-3 {
+        margin-top: -2%;
+        margin-left: 5%;
+    }
+    .tr-home-box-2 {
+        margin-top: -2%;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .tr-home-box-3 {
+        margin-top: 5%;
+        margin-left: 2%;
+        padding: 90px 125px;
+    }
+    .tr-home-box-2 {
+        margin-top: 5%;
+        margin-left: 2%;
+        float: left;
+        padding: 85px;
+    }
+    .tr-home-box-1 {
+        margin-left: 2%;
+        padding: 90px;
+    }
+}
+
+@media only screen and (max-width: 440px) {
+    .tr-home-box-3 {
+        padding: 70px 80px;
+    }
+    .tr-home-box-2 {
+        padding: 70px 40px;
+    }
+    .tr-home-box-1 {
+        padding: 70px 45px;
+    }
+}
+  

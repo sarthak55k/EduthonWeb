@@ -3,6 +3,7 @@ import Fire from "../../config/Fire";
 import { Redirect, Link } from "react-router-dom";
 import "../../css/Student/Home.css";
 import Spinner from "../spinner";
+import "../../css/Teacher/AssignmentTr.css";
 
 let unsubscribe;
 export class AssignmentTr extends Component {
@@ -109,13 +110,18 @@ export class AssignmentTr extends Component {
 
         
         return (
-            <div>
+            <div className="assign-teacher">
+                <div className="ass-teacher">
+                <div className="text-center p-3 assign-heading-teacher">
                 <h1>Assignments</h1>
+                </div>
+                
               <form method="post" onSubmit={this.handleSubmit}>
                 <input
                     type="file"
                     name="file"
-                    
+                    className="input-field-tr-upload"
+                    required
                     onChange={(e) => {this.handleFileChange(e.target.files)}}  
                 />
                 <br/>
@@ -126,32 +132,48 @@ export class AssignmentTr extends Component {
                   value={this.state.fields['description']}
                   required
                   placeholder="Description"
+                  className="input-field-tr-upload"
                 />
                 <br/>
+                <div>
+                <label htmlFor="duedate" className="due-date">Due Date:</label>
                 <input
                   type= 'date'
                   name= 'duedate'
                   onChange={this.handleChange}
                   value={this.state.fields['duedate']}
+                  className="input-field-tr-upload"
+                  style={{marginTop: "0"}}
                   required
                   placeholder="Due Date"
                 />
+                </div>
                 <br/>
-                <button type="submit">Upload</button>    
+                <div className="text-center">
+                <button type="submit" className="upload-button-tr">Upload</button>  
+                </div>  
                 </form>
 
 
 
-
-                {assigns.map(value => {
+                
+                {assigns?assigns.map(value => {
                 return(
-                <div className="class">
-                <a href={value.url}>{value.description}</a>
+                <div className="assign-teacher-link">
+                {/* <a href={value.url}>{value.description}</a> */}
+                <Link
+                  to = {{
+                    pathname: `/teacher/${this.props.match.params.class}/${this.props.match.params.subject}/${value.description}/list`,
+                    url:value.url
+                  }}
+                >
+                <button className="link-assign-tr">{value.description}</button>
+                </Link>
                 </div>
                 )
-              })}
+              }):<div></div>}
             </div>
-
+            </div>
 
 
 

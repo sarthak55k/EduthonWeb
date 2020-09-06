@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Fire from "../../config/Fire";
 import { Redirect } from "react-router-dom";
+import "../../css/Student/Profile.css";
+import Spinner from "../spinner";
 
 class Profile extends Component {
   constructor(props) {
@@ -52,10 +54,14 @@ class Profile extends Component {
     e.preventDefault();
 
     if (this.handleValidation()) {
-
+      
+      console.log(this.state.fields)
       data['isProfile'] = true;
       this.setState({data});
-      Fire.updateLogin(user.uid,this.state.data)  
+
+      let temp = Object.assign(data,this.state.fields)
+      // Fire.updateLogin()  
+      console.log(temp)
     
     } else {
       alert("Form has errors.");
@@ -83,26 +89,32 @@ class Profile extends Component {
   };
 
   render() {
+    if(this.state.data === undefined){
+      return <Spinner/>
+    }
+    if(this.state.data.isProfile){
+      return <Redirect to ={'/student/home'}/>
+    }
     return (
       <div>
-        <div>
-          <div>
+        <div className="bg-student-profile">
+          <div className="student-profile">
             <form method="post" onSubmit={this.handleSubmit}>
-              <h1>
-                <b>Profile</b>
-              </h1>
+              <div className="text-center p-3 student-profile-heading">
+                <h1>
+                  <b>Profile</b>
+                </h1> 
+              </div>
 
               <div>
-                <label for name="firstname">
-                  First Name:{" "}
-                </label>{" "}
-                <br />
                 <input
                   type="text"
                   name="firstname"
                   ref="firstname"
                   onChange={this.handleChange}
                   value={this.state.fields["firstname"]}
+                  placeholder="First Name"
+                  className="input-field-student-profile"
                   required
                 />
                 <span style={{ color: "red" }}>
@@ -110,16 +122,14 @@ class Profile extends Component {
                 </span>
               </div>
               <div>
-                <label for name="lastname">
-                  Last Name:{" "}
-                </label>{" "}
-                <br />
                 <input
                   type="text"
                   name="lastname"
                   ref="lastname"
                   onChange={this.handleChange}
                   value={this.state.fields["lastname"]}
+                  placeholder="Last Name"
+                  className="input-field-student-profile"
                   required
                 />
                 <span style={{ color: "red" }}>
@@ -129,16 +139,14 @@ class Profile extends Component {
 
 
               <div>
-                <label for name="age">
-                  Age:{" "}
-                </label>{" "}
-                <br />
                 <input
                   type="text"
                   name="age"
                   ref="age"
                   onChange={this.handleChange}
                   value={this.state.fields["age"]}
+                  placeholder="Age"
+                  className="input-field-student-profile"
                   required
                 />
                 <span style={{ color: "red" }}>
@@ -148,40 +156,38 @@ class Profile extends Component {
               
 
               <div>
-                <label htmlFor="class">Class:</label>
-                <br />
                 <input 
                   type="text" 
                   name="class" 
                   onChange={this.handleChange}
                   value = {this.state.fields['class']}
+                  placeholder="Class"
+                  className="input-field-student-profile"
                   required />
               </div>
 
  
 
               <div>
-                <label htmlFor="dob">Date of Birth:</label>
-                <br />
                 <input 
                   type="date" 
                   name="dob"
                   onChange={this.handleChange}
                   value = {this.state.fields['date']} 
+                  placeholder="Date Of Birth"
+                  className="input-field-student-profile"
                   required />
               </div>
               
               <div>
-                <label for name="email">
-                  Email:{" "}
-                </label>{" "}
-                <br />
                 <input
                   type="email"
                   name="email"
                   ref="email"
                   onChange={this.handleChange}
                   value={this.state.fields["email"]}
+                  placeholder="Email"
+                  className="input-field-student-profile"
                   required
                 />
                 <span style={{ color: "red" }}>
@@ -190,10 +196,6 @@ class Profile extends Component {
               </div>
 
               <div>
-                <label for name="phone">
-                  Contact No:{" "}
-                </label>{" "}
-                <br />
                 <input
                   type="tel"
                   min={0}
@@ -201,14 +203,16 @@ class Profile extends Component {
                   ref="phone"
                   onChange={this.handleChange}
                   value={this.state.fields["phone"]}
+                  placeholder="Contact Number"
+                  className="input-field-student-profile"
                   required
                 />
                 <span style={{ color: "red" }}>
                   {this.state.errors["phone"]}
                 </span>
               </div>
-              <div className="row">
-                <button type="submit">Submit</button>
+              <div className="text-center">
+                <button type="submit" className="student-profile-button">Submit</button>
               </div>
             </form>
           </div>

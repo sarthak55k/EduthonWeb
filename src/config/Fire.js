@@ -101,7 +101,7 @@ const getUserData = async () => {
     })
   }
 
-return fields
+  return fields
 
 }
 
@@ -134,7 +134,9 @@ const getUserData2 = async (userId) => {
 
 
 
-const updateLogin = (userId, fields) => {
+const updateLogin = (fields) => {
+  let userId = firebase.auth().currentUser.uid;
+
   org.doc(fields['org']).collection("Login").doc(userId).update(
     { fields }
   ).then(() => {
@@ -214,11 +216,33 @@ const getAssignTr = async (fields) => {
   let user = firebase.auth().currentUser;
   let assign = []
   await org.doc(fields['org']).collection('Assignment').doc(user.uid).get().then(doc => {
-    if (doc.data()[fields['class']]) {
-      assign = doc.data()[fields.class][fields.subject]
+    if (doc.exists) {
+      if (doc.data()[fields.class] !== undefined) {
+        assign = doc.data()[fields.class][fields.subject]
+      }
+
     }
 
   })
+
+  return assign
+
+};
+
+const getSubAssign = async (fields) => {
+  let user = firebase.auth().currentUser;
+  let assign = []
+  await org
+    .doc(fields['org'])
+    .collection('Submission')
+    .doc(fields.class)
+    .collection(fields.subject)
+    .where('description', '==', fields.description)
+    .get().then(snapshot => {
+      snapshot.docs.forEach(doc => {
+        assign = doc.data().list
+      })
+    })
 
   return assign
 
@@ -228,7 +252,24 @@ const getAssign = async (fields) => {
   let assign = []
   await org.doc(fields['org']).collection('Assignment').get().then(snapshot => {
     snapshot.docs.forEach(doc => {
+
       assign = doc.data()[fields.class][fields.subject]
+    })
+  })
+  console.log(assign)
+
+  return assign
+
+};
+
+const getMcq = async (fields) => {
+  let assign = []
+  await org.doc(fields['org']).collection('Examination').get().then(snapshot => {
+    snapshot.docs.forEach(doc => {
+      if (doc.data()[fields.class] !== undefined) {
+        assign = (doc.data()[fields.class][fields.subject])
+      }
+
     })
   })
   console.log(assign)
@@ -261,7 +302,7 @@ const studentsAssign = async (fields, file) => {
         .ref(`/${user.uid}/${fields.description}`)
         .getDownloadURL()
         .then(async (url) => {
-          temp = { id: user.uid, url: url }
+          temp = { id: user.uid, name: fields.firstname, url: url }
           await org
             .doc(fields['org'])
             .collection('Submission')
@@ -273,19 +314,33 @@ const studentsAssign = async (fields, file) => {
                 id = doc.id
               })
             })
+          if (id) {
+            await org
+              .doc(fields['org'])
+              .collection('Submission')
+              .doc(fields['class'])
+              .collection(fields['subject'])
+              .doc(id)
+              .set({
+                "description": fields.description,
 
+                "list": firebase.firestore.FieldValue.arrayUnion(temp)
+              }, { merge: true })
+          }
+          else {
+            await org
+              .doc(fields['org'])
+              .collection('Submission')
+              .doc(fields['class'])
+              .collection(fields['subject'])
+              .doc()
+              .set({
+                "description": fields.description,
 
+                "list": firebase.firestore.FieldValue.arrayUnion(temp)
+              }, { merge: true })
+          }
 
-          await org
-            .doc(fields['org'])
-            .collection('Submission')
-            .doc(fields['class'])
-            .collection(fields['subject'])
-            .doc(id)
-            .set({
-              "description": fields.description,
-              "list": firebase.firestore.FieldValue.arrayUnion(temp)
-            }, { merge: true })
         })
         .catch((e) => {
           console.log(e);
@@ -299,9 +354,35 @@ const studentsAssign = async (fields, file) => {
 
 }
 
+const getCalenderAssign = async (fields) => {
+  let assign = []
 
 
+  if (fields.isStudent) {
+    await org.doc(fields['org']).collection('Assignment').get().then(snapshot => {
+      snapshot.docs.forEach(doc => {
+        if (doc.data()[fields.class] !== undefined) {
+          assign.push(doc.data()[fields.class])
+        }
+      })
+    })
+  } else {
+    let arr = fields.class;
+    console.log(arr)
+  for(var i = 0;i<arr.length;i++){
+    await org.doc(fields['org']).collection('Assignment').get().then(snapshot => {
+      snapshot.docs.forEach(doc => {
+        if(doc.data()[arr[i]] !== undefined){
+          assign.push(doc.data()[arr[i]])
+        }
+      })
+    })
+  }
+}
+  console.log(assign)
 
+  return assign
+}
 
 
 const changePassword = (user, newPassword) => {
@@ -316,6 +397,85 @@ const changePassword = (user, newPassword) => {
       console.log(e);
     });
 };
+
+
+const storeMcqTest = async (fields, test) => {
+  let user = firebase.auth().currentUser;
+  let exist = false;
+  let temp = [{
+    'description': fields['description'],
+    'due': firebase.firestore.Timestamp.fromDate(new Date(fields['duedate'])),
+    'test': test
+  }];
+  var data = {
+    [fields.class]: {
+      [fields.subject]: []
+    }
+  }
+
+  console.log(temp)
+
+  await org
+    .doc(fields['org'])
+    .collection('Examination')
+    .doc(user.uid)
+    .set({
+      [fields.class]: {
+        [fields.subject]: firebase.firestore.FieldValue.arrayUnion(temp[0])
+      }
+
+    }, { merge: true })
+
+
+}
+
+
+const storeMcqMarks = async (fields) => {
+  let user = firebase.auth().currentUser;
+  let temp = { description: fields.description, marks: fields.marks }
+
+  console.log(fields)
+
+
+  await org.doc(fields['org']).collection('McqMarks').doc(fields['class']).collection(fields['subject']).doc(user.uid)
+    .set({
+      'list': firebase.firestore.FieldValue.arrayUnion(temp)
+    }, { merge: true })
+
+
+}
+
+const storeAssignSub = async (fields) => {
+  console.log(fields)
+  let temp = { 'description': fields.description, 'marks': fields.marks }
+  await org
+    .doc(fields['org'])
+    .collection('AssignmentMarks')
+    .doc(fields.class)
+    .collection(fields.subject)
+    .doc(fields.id)
+    .set({
+      'list': firebase.firestore.FieldValue.arrayUnion(temp)
+    }, { merge: true })
+
+}
+
+
+// const getStudentData = async(fields) => {
+//   console.log(fields)
+//   await org
+//           .doc(fields['org'])
+//           .collection('Login')
+//           // .where('isStudent','==',true)
+//           // .where('class','==',fields['class'])
+//           .get()
+//           .then( snapshot => {
+//             snapshot.docs.forEach(doc =>{
+
+//             })
+//           })
+
+// }
 
 export default {
   db,
@@ -333,6 +493,13 @@ export default {
   getAssign,
   getSubject,
   studentsAssign,
+  getCalenderAssign,
+  storeMcqTest,
+  getMcq,
+  storeMcqMarks,
+  getSubAssign,
+  storeAssignSub,
+  // getStudentData,
 };
 
 

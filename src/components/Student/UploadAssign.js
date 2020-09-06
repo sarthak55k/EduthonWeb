@@ -3,6 +3,7 @@ import Fire from "../../config/Fire";
 import { Redirect, Link } from "react-router-dom";
 import "../../css/Student/Home.css";
 import Spinner from "../spinner";
+import "../../css/Student/UploadAssign.css";
 
 export class UploadAssign extends Component {
 
@@ -52,6 +53,8 @@ export class UploadAssign extends Component {
           fields['subject'] = this.props.match.params.subject;
           fields['org'] = this.state.data['org']
           fields['class'] = this.state.data['class']
+          fields['firstname'] = this.state.data['firstname']
+          fields['lastname'] = this.state.data['lastname']
           this.setState({fields})
         })
       
@@ -97,16 +100,24 @@ export class UploadAssign extends Component {
     }
     else{
         return (
-            <div>
+            <div className="upload-assignment">
+              <div className="upload-assign">
+                <div className="text-center p-3 heading-upload">
+                  <h1>Upload Assignment</h1>
+                </div>
                 <form method="post" onSubmit={this.handleSubmit}>
                 <input
                     type="file"
                     name="file"
                     onChange={(e) => {this.handleFileChange(e.target.files)}}  
+                    className="input-field-student-upload"
                 />
                 <br/>
-                <button type="submit">Upload</button>    
+                <div className="text-center">
+                  <button type="submit" className="upload-button">Upload</button> 
+                </div> 
                 </form>
+              </div>
             </div>
         )
     }

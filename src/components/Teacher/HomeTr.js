@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import Fire from "../../config/Fire";
 import { Redirect, Link } from "react-router-dom";
-import "../../css/Student/Home.css";
 import Spinner from "../spinner";
-
+import "../../css/Teacher/HomeTr.css";
 
 
 let unsubscribe;
@@ -44,10 +43,6 @@ getData = () => {
     })      
 };
 
-  
-
-
-
   render() {
     
     if(!this.state.fields){
@@ -58,28 +53,28 @@ getData = () => {
     
     return (
       
-      <div>
-        <div className="home">
+      <div className="home-page">
+       {/* <div className="home">
           <Link to="/teacher/progress">
             <h1>Progress</h1>
           </Link>
-        </div>
-        <div className="home">
+    </div> */}
+        <div className="tr-home-box-1">
           <Link to= {{
               pathname : "/teacher/class",
               data: this.state.fields
               }}>
-            <h1>Assignments</h1>
+            <h1 className="links-home">Assignments</h1>
           </Link>
         </div>
-        <div className="home">
-          <Link to="/teacher/exam">
-            <h1>Examinations</h1>
+        <div className="tr-home-box-2">
+          <Link to="/teacher/class2">
+            <h1 className="links-home">Examinations</h1>
           </Link>
         </div>
-        <div className="home">
+        <div className="tr-home-box-3">
           <Link to="/calendar">
-            <h1>Calendar</h1>
+            <h1 className="links-home">Calendar</h1>
           </Link>
         </div>
       </div>

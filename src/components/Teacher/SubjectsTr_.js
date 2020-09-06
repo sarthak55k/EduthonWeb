@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import { Redirect, Link } from "react-router-dom";
 import Fire from "../../config/Fire";
-import "../../css/Teacher/Subjects.css";
+import "../../css/Student/Subjects.css";
 import Spinner from "../spinner";
 
 
 
 let unsubscribe;
-class SubjectsTr extends Component {
+class SubjectsTr_ extends Component {
     constructor(props) {
         super(props)
     
@@ -67,7 +67,7 @@ authListener = () => {
                 return(
                 <div className="teachers-assign">
                 <Link to={{
-                    pathname: `/teacher/${this.props.match.params.class}/${value}/assignment`,
+                    pathname: `/teacher/${this.props.match.params.class}/${value}/exam`,
                     
                 }}>
                     <p className="font-teacher">{value}</p>
@@ -82,4 +82,4 @@ authListener = () => {
     }
 }
 
-export default SubjectsTr;
+export default SubjectsTr_;

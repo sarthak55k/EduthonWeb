@@ -1,19 +1,18 @@
 import React, { Component } from 'react'
 import { Redirect, Link } from "react-router-dom";
 import Fire from "../../config/Fire";
-import "../../css/Teacher/Subjects.css";
+import "../../css/Student/Subjects.css";
 import Spinner from "../spinner";
 
 
-
 let unsubscribe;
-class SubjectsTr extends Component {
+class Subjects_ extends Component {
     constructor(props) {
         super(props)
     
         this.state = {
             user: null,
-
+            sub: [],
         }
     }
     
@@ -38,11 +37,16 @@ authListener = () => {
         
       };
 
-  getData = () => { 
-        Fire.getUserData(this.state.user.uid).then( result => {
+  getData = async() => { 
+      
+        await Fire.getUserData(this.state.user.uid).then( result => {
           this.setState({ fields: result[0] });
           console.log(this.state.fields)
-        })      
+        })
+        Fire.getSubject(this.state.fields).then(result => {
+            this.setState({sub : result.sub})
+            // console.log(this.state.sub)
+        })
   };
 
   componentWillUnmount(){
@@ -52,34 +56,35 @@ authListener = () => {
 
 
     render() {
-        let {fields} = this.state;
-        if(!fields){
+        let {fields,sub} = this.state;
+        if(!fields && sub.length === 0){
             return <Spinner />;
         }
         else{
         return (
-            <div className="teacher-assign"> 
-                <div className="teacher-assignment">
-                    <div className="text-center p-3 teacher-assign-heading">
-                        <h1>Subjects</h1>
-                    </div>
-                {fields[this.props.match.params.class].map(value => {
+            <div className="subject-assign">
+            <div className="subject-assignment">
+                <div className="text-center p-3 subject-assign-heading">
+                <h1>Subjects</h1>
+                </div>
+            
+                {sub?sub.map(value => {
                 return(
-                <div className="teachers-assign">
+                <div className="subjects-assign">
                 <Link to={{
-                    pathname: `/teacher/${this.props.match.params.class}/${value}/assignment`,
+                    pathname: `/student/${value}/exam`,
                     
                 }}>
-                    <p className="font-teacher">{value}</p>
+                    <p className="font-subject">{value}</p>
                 </Link>
               </div>
                 )
-              })} 
-              </div>
+              }):<div></div>} 
+            </div>
             </div>
         )
     }
     }
 }
 
-export default SubjectsTr;
+export default Subjects_;

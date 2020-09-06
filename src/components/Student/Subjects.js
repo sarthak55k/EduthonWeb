@@ -4,8 +4,6 @@ import Fire from "../../config/Fire";
 import "../../css/Student/Subjects.css";
 import Spinner from "../spinner";
 
-
-
 let unsubscribe;
 class Subjects extends Component {
     constructor(props) {
@@ -16,7 +14,6 @@ class Subjects extends Component {
             sub: [],
         }
     }
-    
 
 componentDidMount = () => {
     this.authListener();
@@ -54,8 +51,6 @@ authListener = () => {
       this.unsubscribe();
     }
 
-
-
     render() {
         let {fields,sub} = this.state;
         if(!fields && sub.length === 0){
@@ -63,20 +58,24 @@ authListener = () => {
         }
         else{
         return (
-            <div>
-                <h1>Subjects</h1>
-                {sub.map(value => {
-                return(
-                <div className="class">
-                <Link to={{
-                    pathname: `/student/${value}/assignment`,
-                    
-                }}>
-                    <h1>{value}</h1>
-                </Link>
-              </div>
-                )
-              })} 
+            <div className="subject-assign">
+                <div className="subject-assignment">
+                    <div className="text-center p-3 subject-assign-heading">
+                        <h1>Subjects</h1>   
+                    </div>
+                    {sub.map(value => {
+                    return(
+                    <div className="subjects-assign">
+                    <Link to={{
+                        pathname: `/student/${value}/assignment`,
+                        
+                    }}>
+                        <p className="font-subject">{value}</p>
+                    </Link>
+                </div>
+                    )
+                })} 
+                </div>
             </div>
         )
     }
