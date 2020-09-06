@@ -63,7 +63,7 @@ authListener = () => {
                     <div className="text-center p-3 teacher-assign-heading">
                         <h1>Subjects</h1>
                     </div>
-                {fields[this.props.match.params.class].map(value => {
+                {fields[this.props.match.params.class]?fields[this.props.match.params.class].map(value => {
                 return(
                 <div className="teachers-assign">
                 <Link to={{
@@ -74,7 +74,7 @@ authListener = () => {
                 </Link>
               </div>
                 )
-              })} 
+              }):<div></div>} 
               </div>
             </div>
         )

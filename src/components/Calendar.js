@@ -92,6 +92,9 @@ componentWillUnmount(){
 
 }
  render() {
+   if(this.state.assigns.length === 0){
+return <Spinner/>
+   }
     return (
       <div>
       <div className="text-center p-3 calendar-ui"><h1>Calendar</h1></div>

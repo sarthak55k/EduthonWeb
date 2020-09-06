@@ -192,7 +192,7 @@ class SignUp extends Component {
             <Link
               to = "/signin"
             >
-                <button className="sign-up-button">
+                <button className="sign-up-button" style={{marginTop: "0px"}}>
                   Sign In
                 </button>
             </Link>    

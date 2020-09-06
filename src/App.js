@@ -27,11 +27,20 @@ import CreateTest from "./components/Teacher/CreateTest";
 import Subjects_ from "./components/Student/Subjects_";
 import TakeTest from "./components/Student/TakeTest";
 import ListAssign from "./components/Teacher/ListAssign";
+import Fire from "./config/Fire";
+
+
 
 function App() {
   return (
     <Router>
       <div>
+        <nav className="navbar navbar-dark bg-dark fixed">
+          <a href="#" style={{color: "white"}}>Back</a>
+          <a href="#" style={{color: "white"}}>Logout</a>
+          {/* <button onClick = {() => {Fire.SignoutUser()}}>Logout</button> */}
+        </nav>
+
         <Switch>
           <Route path="/student/home" component={Home} />
           <Route path="/" component={SignUp} exact />

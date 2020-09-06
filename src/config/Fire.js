@@ -266,10 +266,10 @@ const getMcq = async (fields) => {
   let assign = []
   await org.doc(fields['org']).collection('Examination').get().then(snapshot => {
     snapshot.docs.forEach(doc => {
-      if (doc.data()[fields.class] !== undefined) {
-        assign = (doc.data()[fields.class][fields.subject])
-      }
-
+      // if (doc.data()[fields.class] !== undefined) {
+      //   assign = (doc.data()[fields.class][fields.subject])
+      // }
+console.log(doc.data())
     })
   })
   console.log(assign)

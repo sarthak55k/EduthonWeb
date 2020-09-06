@@ -56,11 +56,12 @@ class Profile extends Component {
     if (this.handleValidation()) {
       
       console.log(this.state.fields)
-      data['isProfile'] = true;
+      this.state.data['isProfile'] = true;
       this.setState({data});
 
       let temp = Object.assign(data,this.state.fields)
-      // Fire.updateLogin()  
+      console.log(temp)
+      Fire.updateLogin(temp)  
       console.log(temp)
     
     } else {

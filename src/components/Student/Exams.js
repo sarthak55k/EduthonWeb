@@ -22,7 +22,6 @@ export class Exams extends Component {
     componentDidMount = () => {
 
         this.authListener();
-        
       };
     
       authListener = () => {
@@ -41,6 +40,7 @@ export class Exams extends Component {
     
         
       };
+    
     
     getData = async() =>  { 
       let {fields} = this.state
